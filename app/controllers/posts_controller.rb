@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
 
+  before_action :require_user_be_post_author, only: [:edit, :update, :destroy]
+
   def new
     @post = Post.new
     render :new
@@ -32,6 +34,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @subs = @post.subs
     render :show
   end
 
@@ -41,11 +44,19 @@ class PostsController < ApplicationController
     redirect_to user_url(current_user)
   end
 
+  def require_user_be_post_author
+    @post = Post.find(params[:id])
+    unless @post.author_id == current_user_id
+      flash[:danger] = "DON'T TOUCH OTHER PEOPLE'S STUFF. IT'S NOT NICE"
+      redirect_to subs_url
+  end
+
+
 
   private
 
   def post_params
-    params.require(:post).permit(:title, :url, :content)
+    params.require(:post).permit(:title, :url, :content, sub_ids: [])
   end
 
 

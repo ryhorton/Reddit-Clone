@@ -34,4 +34,12 @@ module ApplicationHelper
     object.persisted? ? "Update" : "Create"
   end
 
+  def object_errors(object)
+    <<-HTML.html_safe
+      <ul>
+        <li>#{object.errors.full_messages.join("</li> <li>")}</li>
+      </ul>
+    HTML
+  end
+
 end

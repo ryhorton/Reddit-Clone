@@ -4,3 +4,9 @@
 <pre>
   <%= @post.content %>
 </pre>
+
+<ul>
+  <% @subs.each do |sub| %>
+    <li><%= my_link_to(sub_url(sub), sub.title) %></li>
+  <% end %>
+</ul>

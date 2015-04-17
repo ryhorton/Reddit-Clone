@@ -3,3 +3,9 @@
 <p>
   <%= @sub.description %>
 </p>
+
+<ul>
+  <% @posts.each do |post| %>
+    <li> <%= render partial: 'posts/post', locals: { post:post } %> </li>
+  <% end %>
+</ul>
