@@ -8,6 +8,11 @@
 </head>
 <body>
 
+  <p>
+    Current user: <%= current_user.email unless current_user.nil? %>
+  </p>
+  <%= my_button_to(session_url, "Logout", "delete") %>
+  <%= my_button_to(session_url, "Log In", "get") %>
 <%= yield %>
 
 </body>
