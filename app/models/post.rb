@@ -12,6 +12,7 @@ class Post < ActiveRecord::Base
     inverse_of: :post
 
   has_many :subs, through: :post_subs, source: :sub
+  has_many :comments
 
 
   def valid_url
@@ -24,7 +25,20 @@ class Post < ActiveRecord::Base
     if sub_ids.none?
       errors[:subs] << "Must have at least  one sub selected"
     end
+  end
 
+  def comments_by_parent_id
+    result = Hash.new { |h, k| h[k] = [] }
+    all_comments = comments.includes(:author)
+    all_comments.each do |comment|
+      if comment.parent_comment_id.nil?
+        result[:parent_comment] << comment
+      else
+        result[comment.parent_comment_id] << comment
+      end
+    end
+
+    result
   end
 
 

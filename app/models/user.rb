@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :subs
   has_many :posts, class_name: "Post", foreign_key: :author_id
 
+  has_many :comments
+
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     return nil unless user

@@ -35,6 +35,8 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @subs = @post.subs
+    @all_comments = @post.comments_by_parent_id
+    # @all_comments = @post.comments.includes(:author)
     render :show
   end
 
@@ -49,6 +51,7 @@ class PostsController < ApplicationController
     unless @post.author_id == current_user_id
       flash[:danger] = "DON'T TOUCH OTHER PEOPLE'S STUFF. IT'S NOT NICE"
       redirect_to subs_url
+    end
   end
 
 
