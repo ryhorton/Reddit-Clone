@@ -30,4 +30,8 @@ module ApplicationHelper
     HTML
   end
 
+  def submit_option(object)
+    object.persisted? ? "Update" : "Create"
+  end
+
 end
