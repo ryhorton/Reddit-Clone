@@ -1,5 +1,7 @@
 class SubsController < ApplicationController
 
+  before_action :require_current_user_is_moderator, only: [:edit, :update]
+
   def new
     @sub = Sub.new
     render :new
@@ -37,7 +39,7 @@ class SubsController < ApplicationController
 
   def destroy
     @sub = Sub.find(params[:id])
-    @sub.destroy
+    @sub.destroy!
     flash[:success] = "Nuked"
     redirect_to subs_url
   end
@@ -45,6 +47,13 @@ class SubsController < ApplicationController
   def index
     @subs = Sub.all
     render :index
+  end
+
+  def require_current_user_is_moderator
+    @sub = Sub.find(params[:id])
+    unless @sub.user_id == current_user_id
+      redirect_to subs_url
+    end
   end
 
   private

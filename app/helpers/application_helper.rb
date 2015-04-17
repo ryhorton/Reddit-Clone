@@ -18,4 +18,16 @@ module ApplicationHelper
     HTML
   end
 
+  def secret_method(method)
+    <<-HTML.html_safe
+      <input type="hidden" name="_method" value="#{method}">
+    HTML
+  end
+
+  def my_link_to(url, text)
+    <<-HTML.html_safe
+      <a href="#{url}">#{text}</a>
+    HTML
+  end
+
 end
